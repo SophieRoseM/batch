@@ -3,6 +3,9 @@ package com.ipiecoles.batch.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.criteria.CriteriaBuilder;
+
+import static org.apache.commons.lang3.CharSetUtils.count;
 
 
 @Entity
@@ -78,4 +81,5 @@ public class Commune {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
 }
