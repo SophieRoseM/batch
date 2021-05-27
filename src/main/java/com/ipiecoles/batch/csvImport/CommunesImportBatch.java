@@ -46,6 +46,9 @@ public class CommunesImportBatch {
     @Autowired
     public EntityManagerFactory entityManagerFactory;
 
+    @Value("10") // ne fonctionne pas avec : "${importFile.chunkSize}"
+    private Integer chunkSize;
+
     // Job principal qui appel les steps définies après
     @Bean
     public Job importCsvJob(Step stepStart, Step stepImportCSV, Step stepGetMissingCoordinates){
@@ -145,13 +148,12 @@ public class CommunesImportBatch {
     }
 
     // step
-    @Value("${importFile.chunkSize}")
-    private Integer chunkSize;
+
 
     @Bean
     public Step stepImportCSV(){
         return stepBuilderFactory.get("importFile")
-                .<CommuneCSV, Commune> chunk(chunkSize)
+                .<CommuneCSV, Commune> chunk(10)
                 .reader(communeCSVItemReader())
                 .processor(communeCSVItemProcessor())
                 .writer(writerJPA())
